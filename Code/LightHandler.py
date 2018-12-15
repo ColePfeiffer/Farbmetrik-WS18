@@ -22,36 +22,42 @@ def isLightOn(lightNum):
     
 # changes the color of the light
 def change_light(col, tTime):
-    pink = 60872
-    #red = "\"xy\": [0.73097, 0.263515],"
-    green = 25600
-    blue = 47104
-    yellow = 12838
-    orange = 8357
-    red = 60872
-    #pink1 = 59695
-
+    
+    xy = False
     color = 0
+    
     url = def_merged+"/lights/1/state"
     
     if col == "blue":
-    	color = blue
+    	color = 47104
     elif col == "red":
-        color = red
+        color =  60872
     elif col == "green":
-        color = green
+        color = 25600
     elif col == "pink":
-        color = pink
+        color = 60872
     elif col == "orange":
-        color = orange
+        color = 8357
     elif col == "yellow":
-        color = yellow
+        color = 7970 #12838 #7970
+    elif col == "turq":
+        color = 38843
+    elif col == "purple":
+        color = 51712
+        #xy = True
+            
+        #data = {
+         #       "on": True,
+          #      "transitiontime": tTime,
+          #      "xy": "[0.304432, 0.0811287]"
+          #      }
         
-    data = {
-            "on": True,
-            "hue": color,
-            "transitiontime": tTime
-    }
+    if(xy != True):
+        data = {
+                "on": True,
+                "hue": color,
+                "transitiontime": tTime
+        }
     
     payload = json.dumps(data)
     #print(payload)

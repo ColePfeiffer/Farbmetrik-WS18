@@ -3,7 +3,7 @@ import wave
 import audioop
 import aubio
 import numpy as np
-import Tester as t
+import LightHandler as t
 import time
 
 
@@ -19,7 +19,7 @@ lastPitch = -55
 lastColor = "nix"
 
 BRI_MODIFIER = 18 #15
-DIFFERENCE_THRESHOLD = 10
+DIFFERENCE_THRESHOLD = 20
 
 p = pyaudio.PyAudio()
 
@@ -84,7 +84,7 @@ for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
             bri = 254
             
         #print("Difference: ",diff,"\nBrightness: ", bri,"\nPitch: ",pitch,"Volume: ",volume)
-        t.change_bri(bri)
+        #t.change_bri(bri)
                         
         #if(bri >= 0 and bri <= 254):
     
@@ -92,14 +92,16 @@ for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
     #if(abs(pitch - lastPitch) >= 15):
     if(pitch <= 2000 and True):
         print(pitch)     
-        if(pitch <= 250 and pitch >= 0):
+        if(pitch <= 150 and pitch >= 0):
             color = "red"
-        if(pitch <= 400 and pitch >= 251):
+        elif(pitch <= 300 and pitch >= 151):
             color = "orange"
-        elif(pitch <= 700 and pitch >= 401):
+        elif(pitch <= 450 and pitch >= 301):
+            color = "yellow"
+        elif(pitch <= 700 and pitch >= 451):
             color = "blue"
-        elif(pitch >= 1000):
-            color = "green"
+        elif(pitch >= 701):
+            color = "purple"
         
         
         
