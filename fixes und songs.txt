@@ -42,7 +42,7 @@ _________________________________________________________________
 python -m pip install --upgrade pip setuptools wheel
 
 conda update -c conda-forge conda
-conda install -c conda-forge xy
+conda install -c conda-forge aubio
 
 conda clean --all
 
