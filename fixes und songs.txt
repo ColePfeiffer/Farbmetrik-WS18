@@ -1,0 +1,61 @@
+_________________________________________________________________
+
+Stuff, der gut zum Testen geeignet ist
+_________________________________________________________________
+
+
+https://www.youtube.com/watch?v=TQwBrS-Twok pitch tester
+https://www.youtube.com/watch?v=F2PsOEvUxwg pitch
+
+https://www.youtube.com/watch?v=s5mvEAXhTQg volume drops
+
+
+_________________________________________________________________
+
+Links, Tipps, ...
+_________________________________________________________________
+
+Aubio und PyAudio
+
+https://github.com/aubio/aubio/tree/master/python/demos
+https://aubio.org/manual/latest/py_examples.html#read-a-sound-file
+
+http://people.csail.mit.edu/hubert/pyaudio/
+
+Python
+
+http://docs.python-requests.org/de/latest/user/quickstart.html
+
+DeConz
+
+https://dresden-elektronik.github.io/deconz-rest-doc/configuration/#getfullstate
+
+Andere
+
+https://github.com/scottlawsonbc/audio-reactive-led-strip
+https://github.com/intxcc/pyaudio_portaudio
+_________________________________________________________________
+
+PYTHON Fixes
+_________________________________________________________________
+
+python -m pip install --upgrade pip setuptools wheel
+
+conda update -c conda-forge conda
+conda install -c conda-forge xy
+
+conda clean --all
+
+
+I also run into the same problem, and to install scrapy, I also intsalled miniconda. But all the above solutions do not work for me. I tried another solution by the following steps.
+Step 1 pip install wheel
+Step 2 pip install F://Twisted-18.9.0-cp36-cp36m-win32.whl
+This step is to install twisted.(if not, it may run into other problems)
+Step 3 pip install F://Scrapy-1.5.1-py2.py3-none-any.whl
+This step is to install scrapy.
+And I saved the two whl files in F:/.
+the wheel file of scrapy and twised can be downloaded from https://www.lfd.uci.edu/~gohlke/pythonlibs/#mysql-python
+But it seems that this website does not offer search, so it may cost some time to find the two files.
+#windows 10 home. python 3.6.4
+
+

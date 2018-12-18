@@ -104,6 +104,18 @@ for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
             color = "purple"
         
         
+    #if(pitch <= 2000 and True):
+     #   print(pitch)     
+      #  if(pitch <= 150 and pitch >= 0):
+       #     color = "turq"
+        #elif(pitch <= 300 and pitch >= 151):
+         #   color = "blue"
+       # elif(pitch <= 450 and pitch >= 301):
+        #    color = "red"
+        #elif(pitch <= 700 and pitch >= 451):
+        #    color = "orange"
+        #elif(pitch >= 701):
+        #    color = "yellow"      
         
         if(color != lastColor):
             t.change_light(color,1)
