@@ -17,9 +17,12 @@ WAVE_OUTPUT_FILENAME = "output.wav"
 lastRms = 0
 lastPitch = -55
 lastColor = "nix"
+lastBri = 0
+requestsSend = 0
 
-BRI_MODIFIER = 2.5 #15
-DIFFERENCE_THRESHOLD = 20
+BRI_MODIFIER = 18 #15
+DIFFERENCE_THRESHOLD = 20 #20 #50
+PITCH_COLORS_ON = True
 
 p = pyaudio.PyAudio()
 
@@ -40,7 +43,7 @@ pDetection.set_silence(-40)
 pDetection.set_tolerance(0.8)
 
 print("* recording")
-#p
+
 print(range(0, int(RATE / CHUNK * RECORD_SECONDS)))
 
 for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
@@ -55,14 +58,17 @@ for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
     #samples = np.fromstring(data32, dtype=aubio.float_type)
     samples = np.frombuffer(data32, dtype=aubio.float_type)
     pitch = pDetection(samples)[0]
+    
     # Compute the energy (volume) of the
     # current frame.
-    volume = (np.sum(samples**2)/len(samples))*1000
+    #volume = (np.sum(samples**2)/len(samples))*1000
+    
     # Format the volume output so that at most
     # it has six decimal numbers.
-    volume = "{:.3f}".format(volume)
+    #volume = "{:.6f}".format(volume)    
     
     rms = audioop.rms(data, 2)    # here's where you calculate the volume
+    
    
     # difference between current volume and last volume
     diff = rms - lastRms
@@ -82,55 +88,51 @@ for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
             bri = 254
             
         #print("Difference: ",diff,"\nBrightness: ", bri,"\nPitch: ",pitch,"Volume: ",volume)
-        t.change_bri(bri)
-                        
-        #if(bri >= 0 and bri <= 254):
+        if(PITCH_COLORS_ON==False):
+            t.change_bri(bri)
+        #requestsSend = requestsSend + 1
+
     
   
     #if(abs(pitch - lastPitch) >= 15):
-    if(True):
-        if(pitch > 0):
-            print(pitch)  
-        
-        if(True): #simple mode
-            if(pitch <= 1500):
-                if(pitch <= 170 and pitch >= 0):
-                    color = "blue"
-                elif(pitch <= 325 and pitch >= 171):
-                    color = "purple"
-                elif(pitch <= 900 and pitch >= 326):
-                    color = "red"
-                else:
-                    color = "yellow"
+    if(PITCH_COLORS_ON):
+        if(pitch <= 1500):
+            if(pitch <= 170 and pitch >= 0):
+                color = "blue"
+            elif(pitch <= 325 and pitch >= 171):
+                color = "purple"
+            elif(pitch <= 900 and pitch >= 326):
+                color = "red"
             else:
                 color = "yellow"
-        
         else:
-            if(pitch <= 2000):
-                if(pitch <= 150 and pitch >= 0):
-                    color = "blue"
-                elif(pitch <= 300 and pitch >= 151):
-                    color = "turq"
-                elif(pitch <= 450 and pitch >= 301):
-                    color = "green"
-                elif(pitch <= 700 and pitch >= 451):
-                    color = "yellow"
-                elif(pitch >= 701):
-                    color = "orange"
-            else:
-                color = "orange"
+            color = "yellow"
         
-        if(color != lastColor):
-            t.change_light(color,1)
-            print("\n\tCOLOR CHANGED:\n",color,pitch)
+        if(True): # To reduce requests...
+            if(color != lastColor):
+                t.change_light_and_bri(color,1,bri)
+                #time.sleep(0.08)
+                requestsSend = requestsSend +1
+            else:
+                if(lastBri != bri):
+                    t.change_bri(bri)
+                    #time.sleep(0.08)
+                    requestsSend = requestsSend +1
+        else: # Changes pitch color, but doesn't change bri
+            if(color != lastColor):
+                t.change_light(color,1)
+                time.sleep(0.1)
+            #print("\n\tCOLOR CHANGED:\n",color,pitch)
             
         lastColor = color
-        #print(color,pitch)
-        
+    
+    lastBri = bri
     lastRms = rms
     lastPitch = pitch
     
 print("* done")
+
+print(requestsSend) #786
 
 stream.stop_stream()
 stream.close()
